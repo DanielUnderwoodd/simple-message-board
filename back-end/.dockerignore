@@ -1,0 +1,9 @@
+front-end/.dockerignore# Exclude node_modules from the Docker image
+
+node_modules
+
+# Exclude files and directories commonly used during development
+
+.git
+.vscode
+\*.md

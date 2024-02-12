@@ -1,70 +1,131 @@
-# Getting Started with Create React App
+# Message board
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The message board consists of multiple named channels. Channels contain messages
+written by users. Users can select a channel from a list of channels, view messages in
+the selected channel, and submit new messages to the selected channel. Board is
+implemented as a single-page web application in React and a simple backend in
+NodeJS.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+```plaintext
+project-root/
+|-- back-end/
+|   |-- Dockerfile
+|   |-- ... (other backend files)
+|
+|-- front-end/
+|   |-- Dockerfile
+|   |-- ... (other frontend files)
+|
+|-- docker-compose.yml
+|-- README.md
+|-- ...
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Run Using Docker
 
-### `npm test`
+Unzip The Project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+  alphasense_assigment.zip
+```
 
-### `npm run build`
+Go to the project directory
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+  cd assignment
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Use docker-compose.yml
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+  docker-compose up || -d
+```
 
-### `npm run eject`
+The services will be accessible at:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Back-end: http://localhost:5000
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Front-end: http://localhost:3000
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Run Locally
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Unzip The Project
 
-## Learn More
+```bash
+  alphasense_assigment.zip
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Go to the project directory
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+  cd assignment
+```
 
-### Code Splitting
+Go to the back-end && front-end directory
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+  cd back-end && front-end
+```
 
-### Analyzing the Bundle Size
+Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+  npm install
+```
 
-### Making a Progressive Web App
+Start the back-end && front-end
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+  node index.js && npm start
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
 
-### Deployment
+## API Reference
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### Get all channels
 
-### `npm run build` fails to minify
+```http
+  GET /api/pb/channels
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### Get specific channel
+
+```http
+  GET /api/pb/channel/${id}
+```
+
+| Parameter | Type     | Description                          |
+| :-------- | :------- | :----------------------------------- |
+| `id`      | `string` | **Required**. Id of channel to fetch |
+
+#### Create Specific Channel
+
+```http
+  POST /api/pb/add-channel
+```
+
+| Parameter         | Type      | Description                                                                                                                                 |
+| :---------------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`           | `string`  | **Required**. Alphanumeric with spaces allowed, without consecutive spaces, with a length between 10 and 30 characters                      |
+| `description`     | `string`  | **Required**. No leading spaces, no consecutive spaces, with a length between 30 and 150 characters without leading or trailing whitespaces |
+| `avatar`          | `jpg/png` | **Optional**                                                                                                                                |
+| `backgroundImage` | `jpg/png` | **Optional**                                                                                                                                |
+
+#### Create Message For Channel
+
+```http
+  POST /api/pb/hannel/add-message
+```
+
+| Parameter   | Type      | Description                                                                                                                                 |
+| :---------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| `alias`     | `string`  | **Required**. Alphanumeric with spaces allowed, without consecutive spaces, with a length between 10 and 30 characters                      |
+| `channelId` | `string`  | **Required**.                                                                                                                               |
+| `subject`   | `string`  | **Required**. Alphanumeric with spaces allowed, without consecutive spaces, with a length between 10 and 30 characters                      |
+| `text`      | `string`  | **Required**. No leading spaces, no consecutive spaces, with a length between 30 and 150 characters without leading or trailing whitespaces |
+| `avatar`    | `jpg/png` | **Optional**                                                                                                                                |
